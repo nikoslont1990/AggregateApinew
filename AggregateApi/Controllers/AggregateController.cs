@@ -9,7 +9,7 @@ namespace AggregateApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class AggregateController(HttpClient client) : ControllerBase
+    public class AggregateController(HttpClient client,IMemoryCache memoryCache) : ControllerBase
     {
 
         [HttpGet]
@@ -46,17 +46,22 @@ namespace AggregateApi.Controllers
             var formattedDate = newdate.ToString("yyyy-MM-ddTHH:mm:ssZ"); // Adjust format as required
             var encodedDate = Uri.EscapeDataString(formattedDate);
 
-            var externalApiUrl = $"https://newsapi.org/v2/everything?q={company}&from={encodedDate}&sortBy={sortBy}&apiKey=7b66f419b1a04be1b8cd5364a4d2dfa4";
-            var externalApiUrl2 = $"http://api.weatherapi.com/v1/current.json?key=efb1e101a69f4fc4b93132147251101&q={country}";
-
-            try
+            string cacheKey = $"Aggregate_{date}_{sortBy}_{company}_{country}";
+            if (!memoryCache.TryGetValue(cacheKey, out AggregateResponse cachedResponse))
             {
-                
+
+
+                var externalApiUrl = $"https://newsapi.org/v2/everything?q={company}&from={encodedDate}&sortBy={sortBy}&apiKey=7b66f419b1a04be1b8cd5364a4d2dfa4";
+                var externalApiUrl2 = $"http://api.weatherapi.com/v1/current.json?key=efb1e101a69f4fc4b93132147251101&q={country}";
+
+                try
+                {
+
                     var tasks = new[]
                     {
                       FetchApiDataWithFallbackAsync(externalApiUrl, new { Message = "News data fallback." }),
                       FetchApiDataWithFallbackAsync(externalApiUrl2, new { Message = "Weather data fallback." }),
-                     
+
                     };
 
                     var results = await Task.WhenAll(tasks);
@@ -65,19 +70,25 @@ namespace AggregateApi.Controllers
                         return StatusCode(500, "Failed to fetch data from one or more external APIs.");
                     }
 
-                    var response = new AggregateResponse
+                    cachedResponse = new AggregateResponse
                     {
                         WeatherApiData = results[1],
                         NewsApiData = results[0],
                     };
 
-                    return Ok(response);
-               
+                    var cacheOptions = new MemoryCacheEntryOptions
+                    {
+                        AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5) // Cache duration
+                    };
+                    memoryCache.Set(cacheKey, cachedResponse, cacheOptions);
+
+                }
+                catch (HttpRequestException ex)
+                {
+                    return StatusCode(500, $"Error fetching data: {ex.Message}");
+                }
             }
-            catch (HttpRequestException ex)
-            {
-                return StatusCode(500, $"Error fetching data: {ex.Message}");
-            }
+            return Ok(cachedResponse);
         }
 
 
