@@ -20,8 +20,8 @@ namespace AggregateApi.Presentation.Controllers
         public async Task<ActionResult<AggregateResponse>> Get(
             [FromQuery,Required, SwaggerParameter(Description = "The date for the news articles (used for filtering).")] string? date,
             [FromQuery, Required, SwaggerParameter(Description = "Field to sort news articles by.")] string? sortBy = null,
-            [FromQuery, Required, SwaggerParameter(Description = "Sort order for the articles: 'asc' or 'desc'. Default is 'asc'.")] string? company = "Apple",
-            [FromQuery, Required, SwaggerParameter(Description = "Filter weather by country.")] string? country = null)
+            [FromQuery, Required, SwaggerParameter(Description = "Filter the news data by company'.")] string? company = "Apple",
+            [FromQuery, Required, SwaggerParameter(Description = "Filter weather by country.")] string? country = "Greece")
         {
 
             if (!ModelState.IsValid)
