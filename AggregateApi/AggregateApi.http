@@ -1,0 +1,6 @@
+@AggregateApi_HostAddress = http://localhost:5159
+
+GET {{AggregateApi_HostAddress}}/aggregate/
+Accept: application/json
+
+###
