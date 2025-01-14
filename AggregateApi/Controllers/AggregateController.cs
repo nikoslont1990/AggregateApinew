@@ -20,7 +20,6 @@ namespace AggregateApi.Controllers
             [FromQuery, SwaggerParameter(Description = "Field to sort news articles by.")] string? sortBy = null,
             [FromQuery, SwaggerParameter(Description = "Sort order for the articles: 'asc' or 'desc'. Default is 'asc'.")] string? company = "Apple",
             [FromQuery, SwaggerParameter(Description = "Filter weather by country.")] string? country = null
-)
         {
 
             if (date == null)
@@ -41,7 +40,6 @@ namespace AggregateApi.Controllers
                 return BadRequest("The country query parameter is required.");
             }
 
-
             var newdate = DateTime.Parse(date);
             var formattedDate = newdate.ToString("yyyy-MM-ddTHH:mm:ssZ"); // Adjust format as required
             var encodedDate = Uri.EscapeDataString(formattedDate);
@@ -49,14 +47,11 @@ namespace AggregateApi.Controllers
             string cacheKey = $"Aggregate_{date}_{sortBy}_{company}_{country}";
             if (!memoryCache.TryGetValue(cacheKey, out AggregateResponse cachedResponse))
             {
-
-
                 var externalApiUrl = $"https://newsapi.org/v2/everything?q={company}&from={encodedDate}&sortBy={sortBy}&apiKey=7b66f419b1a04be1b8cd5364a4d2dfa4";
                 var externalApiUrl2 = $"http://api.weatherapi.com/v1/current.json?key=efb1e101a69f4fc4b93132147251101&q={country}";
 
                 try
                 {
-
                     var tasks = new[]
                     {
                       FetchApiDataWithFallbackAsync(externalApiUrl, new { Message = "News data fallback." }),
