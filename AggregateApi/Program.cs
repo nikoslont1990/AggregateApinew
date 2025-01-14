@@ -1,3 +1,5 @@
+using AggregateApi.Application.Implementation;
+using AggregateApi.Application.Interfaces;
 using Microsoft.OpenApi.Models;
 
 namespace AggregateApi
@@ -12,6 +14,11 @@ namespace AggregateApi
 
             builder.Services.AddControllers();
             builder.Services.AddMemoryCache();
+            builder.Services.AddMemoryCache();
+            builder.Services.AddHttpClient();
+            builder.Services.AddScoped<ICacheService, CacheService>();
+            builder.Services.AddScoped<IApiService, ApiService>();
+            builder.Services.AddScoped<IAggregateService, AggregateService>();
             builder.Services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
