@@ -13,8 +13,8 @@ namespace AggregateApi.Application.Implementation
             var effectiveCompany = string.IsNullOrWhiteSpace(company) ? "DefaultCompany" : company;
             var effectiveCountry = string.IsNullOrWhiteSpace(country) ? "us" : country;
 
-            string weatherApiUrl = $"http://api.weatherapi.com/v1/current.json?key=YOUR_API_KEY&q={effectiveCountry}";
-            string newsApiUrl = $"https://newsapi.org/v2/everything?q={effectiveCompany}&from={effectiveDate:yyyy-MM-dd}&sortBy={effectiveSortBy}&apiKey=YOUR_API_KEY";
+            string weatherApiUrl = $"http://api.weatherapi.com/v1/current.json?key=efb1e101a69f4fc4b93132147251101&q={effectiveCountry}";
+            string newsApiUrl = $"https://newsapi.org/v2/everything?q={effectiveCompany}&from={effectiveDate:yyyy-MM-dd}&sortBy={effectiveSortBy}&apiKey=7b66f419b1a04be1b8cd5364a4d2dfa4";
 
             string weatherCacheKey = $"Weather_{effectiveCountry}";
             string newsCacheKey = $"News_{effectiveCompany}_{effectiveDate}_{effectiveSortBy}";
