@@ -5,7 +5,7 @@ namespace AggregateApi.Application.Implementation
 {
     public class AggregateService(IApiService apiService, ICacheService cacheService) : IAggregateService
     {
-        public async Task<AggregateResponse> GetAggregateDataAsync(string? date, string? sortBy, string? company, string? country)
+        public async Task<AggregateResponse> GetAggregateDataAsync(string? date, string? sortBy, string? company, string? country,string? category,string url)
         {
             // Apply default values
             var effectiveDate = date;
@@ -14,14 +14,18 @@ namespace AggregateApi.Application.Implementation
             var effectiveCountry = string.IsNullOrWhiteSpace(country) ? "us" : country;
 
             string weatherApiUrl = $"http://api.weatherapi.com/v1/current.json?key=efb1e101a69f4fc4b93132147251101&q={effectiveCountry}";
-            string newsApiUrl = $"https://newsapi.org/v2/everything?q={effectiveCompany}&from={effectiveDate:yyyy-MM-dd}&sortBy={effectiveSortBy}&apiKey=7b66f419b1a04be1b8cd5364a4d2dfa4";
-
+            string newsApiUrl = $"https://newsapi.org/v2/everything?q={effectiveCompany}&from={effectiveDate:yyyy-MM-dd}&to={effectiveDate:yyyy-MM-dd}&sortBy={effectiveSortBy}&apiKey=7b66f419b1a04be1b8cd5364a4d2dfa4";
+            string newsApiUrl1 = $"https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=7b66f419b1a04be1b8cd5364a4d2dfa4";
+            string twitterApiUrl = $"https://publish.twitter.com/oembed?url={url}";
             string weatherCacheKey = $"Weather_{effectiveCountry}";
             string newsCacheKey = $"News_{effectiveCompany}_{effectiveDate}_{effectiveSortBy}";
+            string newsCacheKey1 = $"News_{effectiveCountry}_{category}";
+            string twitterCacheKey = $"Twitter_{url}";
 
             // Add fallback data
             var fallbackWeatherData = new { Message = "Weather data not available. Using fallback." };
             var fallbackNewsData = new { Message = "News data not available. Using fallback." };
+            var fallbacktwitterData = new { Message = "Twitter data not available. Using fallback." };
 
             // Fetch data with fallback mechanism
             var weatherTask = cacheService.GetOrCreateAsync(
@@ -36,12 +40,24 @@ namespace AggregateApi.Application.Implementation
                 TimeSpan.FromMinutes(10)
             );
 
-            var results = await Task.WhenAll(weatherTask, newsTask);
+            var newsTaskcateg = cacheService.GetOrCreateAsync(
+               newsCacheKey,
+               () => FetchWithFallbackAsync(newsApiUrl1, fallbackNewsData),
+               TimeSpan.FromMinutes(10)
+           );
+            var twitterTask = cacheService.GetOrCreateAsync(
+             twitterCacheKey,
+             () => FetchWithFallbackAsync(twitterApiUrl, fallbackNewsData),
+             TimeSpan.FromMinutes(10)
+         );
+            var results = await Task.WhenAll(weatherTask, newsTask, newsTaskcateg, twitterTask);
 
             return new AggregateResponse
             {
                 WeatherApiData = results[0],
-                NewsApiData = results[1]
+                NewsApiData = results[1],
+                NewsApiCategoryData = results[2],
+                TwitterData = results[3],
             };
         }
 

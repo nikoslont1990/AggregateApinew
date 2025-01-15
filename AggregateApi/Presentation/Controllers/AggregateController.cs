@@ -19,9 +19,11 @@ namespace AggregateApi.Presentation.Controllers
          Description = "This endpoint calls two external APIs (weather and news), handles them asynchronously, and returns an aggregate response with weather and news data.")]
         public async Task<ActionResult<AggregateResponse>> Get(
             [FromQuery,Required, SwaggerParameter(Description = "The date for the news articles (used for filtering).")] string? date,
-            [FromQuery, Required, SwaggerParameter(Description = "Field to sort news articles by.")] string? sortBy = null,
+            [FromQuery, Required, SwaggerParameter(Description = "Field to sort news articles by.")] string? sortBy = "popularity",
             [FromQuery, Required, SwaggerParameter(Description = "Filter the news data by company'.")] string? company = "Apple",
-            [FromQuery, Required, SwaggerParameter(Description = "Filter weather by country.")] string? country = "Greece")
+            [FromQuery, Required, SwaggerParameter(Description = "Filter weather by country.")] string? country = "Greece",
+            [FromQuery, Required, SwaggerParameter(Description = "Category of news for selectedS country.")] string?  category = "business",
+            [FromQuery, Required, SwaggerParameter(Description = "Url fot twitter api.")] string?  url = "https://twitter.com/Interior/status/507185938620219395")
         {
 
             if (!ModelState.IsValid)
@@ -37,7 +39,7 @@ namespace AggregateApi.Presentation.Controllers
             var effectiveCountry = string.IsNullOrWhiteSpace(country) ? "us" : country;
 
             // Call service with validated/defaulted inputs
-            var response = await aggregateService.GetAggregateDataAsync(encodedDate, effectiveSortBy, company, effectiveCountry);
+            var response = await aggregateService.GetAggregateDataAsync(encodedDate, effectiveSortBy, company, effectiveCountry, category,url);
 
             return Ok(response);
         }
