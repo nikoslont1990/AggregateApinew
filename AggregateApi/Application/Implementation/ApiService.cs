@@ -11,7 +11,8 @@ namespace AggregateApi.Application.Implementation
         {
             _httpClientFactory = httpClientFactory;
         }
-
+ 
+    //blabla
         public async Task<T> FetchApiDataAsync<T>(string name ,string url)
         {
             var client = _httpClientFactory.CreateClient(name);
