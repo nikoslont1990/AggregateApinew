@@ -1,0 +1,198 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base styles */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    @apply text-neutral-900 dark:text-neutral-100;
+  }
+
+  body {
+    @apply bg-white dark:bg-neutral-900;
+  }
+
+  /* Focus visible styles for keyboard navigation */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary-500 dark:outline-primary-400;
+  }
+
+  /* Skip to main content link (accessibility) */
+  .skip-to-main {
+    @apply absolute top-0 left-0 -translate-y-full px-4 py-2 bg-primary-600 text-white focus:translate-y-0 z-50;
+  }
+}
+
+/* Component styles */
+@layer components {
+  /* Form controls */
+  .form-input {
+    @apply w-full px-4 py-2 border border-neutral-300 rounded-lg 
+      focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500
+      dark:bg-neutral-800 dark:border-neutral-600 dark:text-white;
+  }
+
+  .form-label {
+    @apply block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1;
+  }
+
+  .form-error {
+    @apply text-sm text-error mt-1;
+  }
+
+  /* Buttons */
+  .btn {
+    @apply inline-flex items-center justify-center px-4 py-2 rounded-lg 
+      font-medium transition-colors duration-200 focus:outline-none focus:ring-2 
+      focus:ring-offset-2 dark:focus:ring-offset-neutral-900;
+  }
+
+  .btn-primary {
+    @apply btn bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500;
+  }
+
+  .btn-secondary {
+    @apply btn bg-neutral-200 text-neutral-900 hover:bg-neutral-300 
+      dark:bg-neutral-700 dark:text-white dark:hover:bg-neutral-600 focus:ring-neutral-500;
+  }
+
+  .btn-danger {
+    @apply btn bg-error text-white hover:bg-opacity-90 focus:ring-error;
+  }
+
+  .btn-sm {
+    @apply px-3 py-1 text-sm;
+  }
+
+  .btn-lg {
+    @apply px-6 py-3 text-lg;
+  }
+
+  /* Cards */
+  .card {
+    @apply bg-white dark:bg-neutral-800 rounded-lg shadow-sm 
+      border border-neutral-200 dark:border-neutral-700 p-4;
+  }
+
+  /* Loading spinner */
+  .spinner {
+    @apply inline-block animate-spin;
+  }
+
+  /* Responsive spacing */
+  .safe-inset {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* Accessibility utilities */
+@layer utilities {
+  .sr-only {
+    @apply absolute w-px h-px p-0 m-0 overflow-hidden absolute border-0;
+  }
+
+  .focus-within-visible {
+    @apply focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-primary-500;
+  }
+}
+  :root {
+  color: var(--text);
+  background: var(--bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  @media (max-width: 1024px) {
+    font-size: 16px;
+  }
+}
+
+  @media (max-width: 1024px) {
+    font-size: 16px;
+  }
+
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text: #9ca3af;
+    --text-h: #f3f4f6;
+    --bg: #16171d;
+    --border: #2e303a;
+    --code-bg: #1f2028;
+    --accent: #c084fc;
+    --accent-bg: rgba(192, 132, 252, 0.15);
+    --accent-border: rgba(192, 132, 252, 0.5);
+    --social-bg: rgba(47, 48, 58, 0.5);
+    --shadow:
+      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+  }
+
+  #social .button-icon {
+    filter: invert(1) brightness(2);
+  }
+}
+
+#root {
+  width: 1126px;
+  max-width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  border-inline: 1px solid var(--border);
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+h1,
+h2 {
+  font-family: var(--heading);
+  font-weight: 500;
+  color: var(--text-h);
+}
+
+h1 {
+  font-size: 56px;
+  letter-spacing: -1.68px;
+  margin: 32px 0;
+  @media (max-width: 1024px) {
+    font-size: 36px;
+    margin: 20px 0;
+  }
+}
+h2 {
+  font-size: 24px;
+  line-height: 118%;
+  letter-spacing: -0.24px;
+  margin: 0 0 8px;
+  @media (max-width: 1024px) {
+    font-size: 20px;
+  }
+}
+p {
+  margin: 0;
+}
+
+code,
+.counter {
+  font-family: var(--mono);
+  display: inline-flex;
+  border-radius: 4px;
+  color: var(--text-h);
+}
+
+code {
+  font-size: 15px;
+  line-height: 135%;
+  padding: 4px 8px;
+  background: var(--code-bg);
+}

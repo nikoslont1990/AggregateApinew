@@ -4,6 +4,6 @@ namespace AggregateApi.Application.Interfaces
 {
     public interface IApiService
     {
-        Task<T> FetchApiDataAsync<T>(string url);
+        Task<T> FetchApiDataAsync<T>(string name,string url);
     }
 }

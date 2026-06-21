@@ -1,0 +1,48 @@
+name: Frontend Build & Test
+
+on:
+  push:
+    branches: [main, 'feature/**', '001-*']
+    paths:
+      - 'frontend/**'
+      - '.github/workflows/frontend.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'frontend/**'
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: frontend/modern-weather/package-lock.json
+
+      - name: Install dependencies
+        working-directory: frontend/modern-weather
+        run: npm ci
+
+      - name: Lint code
+        working-directory: frontend/modern-weather
+        run: npm run lint --if-present
+
+      - name: Run tests
+        working-directory: frontend/modern-weather
+        run: npm test --if-present -- --passWithNoTests
+
+      - name: Build for web
+        working-directory: frontend/modern-weather
+        run: npm run build:web --if-present
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./frontend/modern-weather/coverage/coverage-final.json
+          fail_ci_if_error: false

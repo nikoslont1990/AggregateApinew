@@ -12,9 +12,9 @@ namespace AggregateApi.Application.Implementation
             _httpClientFactory = httpClientFactory;
         }
 
-        public async Task<T> FetchApiDataAsync<T>(string url)
+        public async Task<T> FetchApiDataAsync<T>(string name ,string url)
         {
-            var client = _httpClientFactory.CreateClient();
+            var client = _httpClientFactory.CreateClient(name);
             var response = await client.GetAsync(url);
 
             response.EnsureSuccessStatusCode();

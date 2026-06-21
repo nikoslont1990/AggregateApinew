@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AggregateApi", "AggregateApi\AggregateApi.csproj", "{91D7D0CD-B772-4D28-A93D-FB7353FACD31}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AggregateApi", "AggregateApi\AggregateApi.csproj", "{91D7D0CD-B772-4D28-A93D-FB7353FACD31}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AggregateServiceUniTests", "AggregateServiceTests\AggregateServiceUniTests.csproj", "{A7848574-4064-4227-9BAF-9CBBE178F589}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{91D7D0CD-B772-4D28-A93D-FB7353FACD31}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{91D7D0CD-B772-4D28-A93D-FB7353FACD31}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{91D7D0CD-B772-4D28-A93D-FB7353FACD31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7848574-4064-4227-9BAF-9CBBE178F589}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7848574-4064-4227-9BAF-9CBBE178F589}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7848574-4064-4227-9BAF-9CBBE178F589}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7848574-4064-4227-9BAF-9CBBE178F589}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
