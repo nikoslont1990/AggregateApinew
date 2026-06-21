@@ -25,6 +25,7 @@ namespace AggregateApi.Application.Implementation
             var newsCacheKey1 = $"News_{effectiveCountry}_{category}";
             var twitterCacheKey = $"Twitter_{url}";
 
+            //lalallala
             // Add fallback data
             var fallbackWeatherData = new { Message = "Weather data not available. Using fallback." };
             var fallbackNewsData = new { Message = "News data not available. Using fallback." };
